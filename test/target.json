@@ -1,0 +1,9 @@
+{
+  "web": {
+  "baseUrl": "http://p4ooolo.local/mantis"
+  },
+  "webadmin": {
+  "username": "administrator",
+  "password": "root"
+  }
+}
