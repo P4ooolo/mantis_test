@@ -23,8 +23,10 @@ class projectHelper:
 
     def create_new(self):
         wd = self.app.wd
-        self.change_field_value("name", random_string(20))
+        name = random_string(20)
+        self.change_field_value("name", name)
         wd.find_element_by_css_selector("input[value='Add Project']").click()
+        return name
 
 
     def change_field_value(self, field_name, text):
@@ -38,8 +40,7 @@ class projectHelper:
     def get_count(self):
         wd = self.app.wd
         self.open_list_page()
-        return len(wd.find_elements_by_xpath("/html/body/table[3]/tbody/tr")) - 2
-
+        return len(wd.find_elements_by_css_selector("table:nth-child(6) tr:not(.row-category) a"))
 
 
     def open_list_page(self):
@@ -51,8 +52,19 @@ class projectHelper:
     def del_random_project(self):
         wd = self.app.wd
         self.open_list_page()
-        random.choice(wd.find_elements_by_css_selector("table:nth-child(6) tr:not(.row-category) a")).click()
+        del_project = random.choice(wd.find_elements_by_css_selector("table:nth-child(6) tr:not(.row-category) a"))
+        removed_project = del_project.text
+        del_project.click()
         wd.find_element_by_css_selector("input[value='Delete Project']").click()
         time.sleep(1)
         wd.find_element_by_css_selector("input[value='Delete Project']").click()
+        return removed_project
+
+
+    def get_list(self):
+        wd = self.app.wd
+        list = []
+        for element in wd.find_elements_by_css_selector("table:nth-child(6) tr:not(.row-category) a"):
+            list.append(element.text)
+        return list
 

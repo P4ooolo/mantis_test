@@ -1,7 +1,7 @@
 def test_add_new_project(app):
-    app.session.ensure_login(app.username, app.password)
-    old_count = app.project.get_count()
+    old_list = app.project.get_list()
     app.project.check_on_create_page()
-    app.project.create_new()
-    new_count = app.project.get_count()
-    assert old_count + 1 == new_count
+    old_list.append(app.project.create_new())
+    new_list = app.project.get_list()
+    assert len(old_list) == len(new_list)
+    assert sorted(old_list) == sorted(new_list)

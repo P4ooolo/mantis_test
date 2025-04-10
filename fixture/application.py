@@ -9,7 +9,7 @@ from fixture.session import sessionHelper
 
 class Application:
 
-    def __init__(self, browser, base_url, username, password):
+    def __init__(self, browser, base_url):
         if browser == "chrome":
             self.wd = webdriver.Chrome()
         elif browser == "firefox":
@@ -22,8 +22,7 @@ class Application:
         self.session = sessionHelper(self)
         self.project = projectHelper(self)
         self.base_url = base_url
-        self.username = username
-        self.password = password
+
 
     def is_element_present(self, how, what):
         try:

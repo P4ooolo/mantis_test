@@ -22,12 +22,8 @@ def app(request):
     browser = request.config.getoption("--browser")
     confiq = load_confiq(request.config.getoption("--target"))
     if fixture is None or not fixture.is_valid():
-        fixture = Application(
-            browser=browser,
-            base_url=confiq["web"]['baseUrl'],
-            username=confiq["webadmin"]["username"],
-            password=confiq["webadmin"]["password"]
-        )
+        fixture = Application(browser=browser, base_url=confiq["web"]['baseUrl'])
+    fixture.session.ensure_login(username=confiq["webadmin"]['username'], password=confiq["webadmin"]['password'])
     return fixture
 
 
