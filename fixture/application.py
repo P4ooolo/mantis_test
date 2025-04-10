@@ -1,15 +1,17 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-
 from fixture.project import projectHelper
 from fixture.session import sessionHelper
-
+from fixture.soap import soapHelper
+from fixture.james import jamesHelper
+from fixture.signup import SignupHelper
+from fixture.mail import MailHelper
 
 
 class Application:
 
-    def __init__(self, browser, base_url):
+    def __init__(self, browser, configuration):
         if browser == "chrome":
             self.wd = webdriver.Chrome()
         elif browser == "firefox":
@@ -20,8 +22,14 @@ class Application:
             raise ValueError("Unrecognized browser %s" % browser)
         self.wd.implicitly_wait(20)
         self.session = sessionHelper(self)
+        self.james = jamesHelper(self)
+        self.signup = SignupHelper(self)
+        self.mail = MailHelper(self)
+        self.soap = soapHelper(self)
         self.project = projectHelper(self)
-        self.base_url = base_url
+        self.configuration = configuration
+        self.base_url = configuration['web']['baseUrl']
+
 
 
     def is_element_present(self, how, what):
