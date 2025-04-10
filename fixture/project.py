@@ -23,7 +23,7 @@ class projectHelper:
 
     def create_new(self):
         wd = self.app.wd
-        name = random_string(20)
+        name = random_string(20).strip()
         self.change_field_value("name", name)
         wd.find_element_by_css_selector("input[value='Add Project']").click()
         return name
@@ -68,3 +68,14 @@ class projectHelper:
             list.append(element.text)
         return list
 
+    def get_list_soap(self):
+        project_list_soap = self.app.soap.get_project_list(self.app.configuration["webadmin"]['username'], self.app.configuration["webadmin"]['password'])
+        return [row["name"] for row in project_list_soap]
+
+    def del_project_by_name(self, name):
+        wd = self.app.wd
+        self.open_list_page()
+        wd.find_element_by_link_text(name).click()
+        wd.find_element_by_css_selector("input[value='Delete Project']").click()
+        time.sleep(1)
+        wd.find_element_by_css_selector("input[value='Delete Project']").click()
