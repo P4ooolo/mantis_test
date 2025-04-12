@@ -25,9 +25,9 @@ class Application:
         self.james = jamesHelper(self)
         self.signup = SignupHelper(self)
         self.mail = MailHelper(self)
-        self.soap = soapHelper(self)
         self.project = projectHelper(self)
         self.configuration = configuration
+        self.soap = soapHelper(self)
         self.base_url = configuration['web']['baseUrl']
 
 
